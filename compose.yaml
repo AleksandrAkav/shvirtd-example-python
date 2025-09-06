@@ -13,10 +13,9 @@ services:
       - "5000:5000"
     environment:
       - DB_HOST=172.20.0.10                 
-      - DB_PORT=${APP_DB_PORT}
-      - DB_NAME=${APP_DB_NAME}
-      - DB_USER=${APP_DB_USER}
-      - DB_PASSWORD=${APP_DB_PASSWORD}
+      - DB_NAME=${MYSQL_DATABASE}
+      - DB_USER=${MYSQL_USER}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
     env_file:
       - .env
     depends_on:
