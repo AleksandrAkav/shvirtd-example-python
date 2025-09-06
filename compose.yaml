@@ -21,7 +21,7 @@ services:
     depends_on:
       - database
     networks:
-      app-network:
+       network:
         ipv4_address: 172.20.0.5            
     restart: unless-stopped
 
@@ -41,7 +41,7 @@ services:
       - mariadb_data:/var/lib/mysql
       - ./init-db:/docker-entrypoint-initdb.d
     networks:
-      app-network:
+      network:
         ipv4_address: 172.20.0.10           
     restart: unless-stopped
     healthcheck:
@@ -54,9 +54,5 @@ volumes:
   mariadb_data:
 
 networks:
-  app-network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.20.0.0/24  
-          gateway: 172.20.0.1 
+  network:
+     name: backend
