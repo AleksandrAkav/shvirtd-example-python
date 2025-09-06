@@ -5,6 +5,16 @@ LABEL description="Reverse-proxy по ДЗ от Нетологии"
 
 COPY . .
 
+RUN apt-get update && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -y \
+  nano \
+  wget \
+  gnupg2 \
+  iputils-ping \
+  net-tools \
+  iproute2 \
+  curl
+
 RUN pip install -r requirements.txt
 
 EXPOSE 5000
