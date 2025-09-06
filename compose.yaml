@@ -7,7 +7,7 @@ services:
   app:
     build:
       context: ./app
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.python
     container_name: my-app
     ports:
       - "5000:5000"
