@@ -6,7 +6,7 @@ include:
 services:
   app:
     build:
-      context: ./app
+      context: .
       dockerfile: Dockerfile.python
     container_name: reverse-proxy
     ports:
