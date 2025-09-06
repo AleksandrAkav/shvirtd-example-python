@@ -4,7 +4,7 @@ include:
 services:
    app:
     build: . # Собираем образ из Dockerfile в текущей директории
-    container_name: my-app
+    container_name: reverse-proxy
     environment:
       - NODE_ENV=production
     depends_on:
@@ -12,5 +12,7 @@ services:
   database:
     image: mariadb:latest
     environment:
-      - MYSQL_USER=${DB_USERNAME}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
