@@ -1,7 +1,52 @@
-version: "3.8"
-include:
-   - proxy.yaml
+version: '3.8'
+
 services:
-   app:
-    build: . # Собираем образ из Dockerfile в текущей директории
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: my-app
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_HOST=172.20.0.10                 
+      - DB_PORT=${APP_DB_PORT}
+      - DB_NAME=${APP_DB_NAME}
+      - DB_USER=${APP_DB_USER}
+      - DB_PASSWORD=${APP_DB_PASSWORD}
+    env_file:
+      - .env
+    depends_on:
+      - database
+    networks:
+      app-network:
+        ipv4_address: 172.20.0.5            
+    restart: unless-stopped
+
+  database:
+    image: mariadb:8
     container_name: reverse-proxy
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    env_file:
+      - .env
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./init-db:/docker-entrypoint-initdb.d
+    networks:
+      app-network:
+        ipv4_address: 172.20.0.10           
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  mariadb_data:
