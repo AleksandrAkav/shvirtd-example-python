@@ -9,6 +9,7 @@ RUN apt-get update && \
     nano \
     wget \
     mc \
+    pip \
     mariadb
 
 COPY . .
