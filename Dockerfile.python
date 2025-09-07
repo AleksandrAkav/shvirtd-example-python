@@ -16,6 +16,7 @@ RUN apt-get update && \
   curl
 
 RUN pip install -r requirements.txt
+RUN pip install mysqlclient
 
 EXPOSE 5000
 
